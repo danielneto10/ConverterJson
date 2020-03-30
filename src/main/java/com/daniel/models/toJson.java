@@ -20,18 +20,16 @@ public class toJson extends Task<Object>{
 	private List<String> colunas;
 	private List<String> valores;
 	private ListView<String> listview;
-	private ProgressBar pgbar;
 	private static String gsonString;
 	private int qtd;
 	
-	public toJson(ListView<String> listview, ProgressBar pgbar, int qtd) {
+	public toJson(ListView<String> listview, int qtd) {
 		jsonArray = new JsonArray();
 		flag = true;
 		colunas = new ArrayList<String>();
 		valores = new ArrayList<String>();
 		flag = true;
 		this.listview = listview;
-		this.pgbar = pgbar;
 		this.qtd = qtd - 1;
 	}
 

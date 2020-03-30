@@ -36,7 +36,7 @@ public class TelaController {
     		thLeitura.start();
     		
     		
-    		Task<Object> taskToJson = new toJson(listViewRegistro, progBarRegistros, totLines);
+    		Task<Object> taskToJson = new toJson(listViewRegistro, totLines);
     		progBarRegistros.progressProperty().bind(taskToJson.progressProperty());
     		Thread thToJson = new Thread(taskToJson);
     		thToJson.setDaemon(true);
