@@ -9,10 +9,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import javafx.concurrent.Task;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 
-public class toJson implements Runnable{
+public class toJson extends Task<Object>{
 
 	private JsonArray jsonArray;
 	private boolean flag;
@@ -21,8 +22,9 @@ public class toJson implements Runnable{
 	private ListView<String> listview;
 	private ProgressBar pgbar;
 	private static String gsonString;
+	private int qtd;
 	
-	public toJson(ListView<String> listview, ProgressBar pgbar) {
+	public toJson(ListView<String> listview, ProgressBar pgbar, int qtd) {
 		jsonArray = new JsonArray();
 		flag = true;
 		colunas = new ArrayList<String>();
@@ -30,9 +32,20 @@ public class toJson implements Runnable{
 		flag = true;
 		this.listview = listview;
 		this.pgbar = pgbar;
+		this.qtd = qtd - 1;
 	}
 
-	public void run() {
+//	public void run() {
+//		
+//	}
+
+	public static String getGsonString() {
+		return gsonString;
+	}
+
+	@Override
+	protected Object call() throws Exception {
+		int count = 1;
 		while(FilaValores.isTerminou()) {
 			String linha = FilaValores.pegarLista();
 			
@@ -56,15 +69,14 @@ public class toJson implements Runnable{
 						obj.addProperty(colunas.get(i), valores.get(i));
 					}
 					jsonArray.add(obj);
+					updateProgress(count, qtd);
 					listview.getItems().add(obj.toString());
+					count++;
 				}
 			}
 		}
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		gsonString =  gson.toJson(jsonArray);
-	}
-
-	public static String getGsonString() {
-		return gsonString;
+		return null;
 	}
 }

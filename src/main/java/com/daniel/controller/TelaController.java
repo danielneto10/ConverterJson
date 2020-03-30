@@ -3,8 +3,10 @@ import java.io.File;
 
 import com.daniel.models.AbrirArq;
 import com.daniel.models.Leitura;
+import com.daniel.models.QtdLinhas;
 import com.daniel.models.toJson;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -29,10 +31,16 @@ public class TelaController {
     	File arq = new AbrirArq().abrir();
     	listViewRegistro.getItems().clear();
     	if(arq != null) {
+    		int totLines = new QtdLinhas(arq).total();
     		Thread thLeitura = new Thread(new Leitura(arq));
-        	Thread thToJson = new Thread(new toJson(listViewRegistro, progBarRegistros));
-        	thLeitura.start();
-        	thToJson.start();
+    		thLeitura.start();
+    		
+    		
+    		Task<Object> taskToJson = new toJson(listViewRegistro, progBarRegistros, totLines);
+    		progBarRegistros.progressProperty().bind(taskToJson.progressProperty());
+    		Thread thToJson = new Thread(taskToJson);
+    		thToJson.setDaemon(true);
+    		thToJson.start();
     	}
     }
 

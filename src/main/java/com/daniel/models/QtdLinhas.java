@@ -8,29 +8,30 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Leitura implements Runnable{
+public class QtdLinhas {
+	private int qtd;
 	private BufferedReader br;
 	private String line;
 	private Path path;
 	
-	public Leitura(File arq) {
+	public QtdLinhas(File arq) {
 		this.line = "";
 		this.path = Paths.get(arq.getPath());
 	}
 	
-	
-	public void run() {
+	public int total() {
 		try {
-			FilaValores.setLendoDados(true);
 			br = Files.newBufferedReader(path, StandardCharsets.UTF_8);
 			while((line = br.readLine()) != null) {
-				FilaValores.addLinha(line.replaceAll("\"", ""));
+				qtd++;
 			}
 			br.close();
-			FilaValores.setLendoDados(false);
+			return qtd;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return 0;
 	}
+	
 }
