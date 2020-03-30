@@ -1,11 +1,10 @@
 package com.daniel.models;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class FilaValores {
 
-	private static List<String> lista = new ArrayList<String>();;
+	private static List<String> lista = new Vector<String>();;
 	private static boolean lendoDados = true;
 	
 	public FilaValores() {
