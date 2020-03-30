@@ -14,7 +14,8 @@ public class AbrirArq {
 	}
 	
 	public File abrir() {
-		arq.setFileFilter(new FileNameExtensionFilter("TXT | CSV", "txt", "csv"));
+		arq.setFileFilter(new FileNameExtensionFilter("Arquivo Texto(*.txt;*.csv)", "txt", "csv"));
+		arq.setAcceptAllFileFilterUsed(false);
 		int resultado = arq.showOpenDialog(null);
 		if(resultado == JFileChooser.APPROVE_OPTION) {
 			return arq.getSelectedFile();

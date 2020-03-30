@@ -1,5 +1,7 @@
 package com.daniel.models;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,6 +46,7 @@ public class toJson extends Task<Object>{
 	@Override
 	protected Object call() throws Exception {
 		int count = 1;
+		Instant inicio = Instant.now();
 		while(FilaValores.isTerminou()) {
 			String linha = FilaValores.pegarLista();
 			
@@ -73,6 +76,8 @@ public class toJson extends Task<Object>{
 				}
 			}
 		}
+		Instant fim = Instant.now();
+		System.out.println("Duracao Parse: " + Duration.between(inicio, fim).toMillis() + "ms");
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		gsonString =  gson.toJson(jsonArray);
 		return null;

@@ -7,6 +7,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
+
+import javax.swing.text.DefaultEditorKit.BeepAction;
 
 public class Leitura implements Runnable{
 	private BufferedReader br;
@@ -21,6 +25,7 @@ public class Leitura implements Runnable{
 	
 	public void run() {
 		try {
+			Instant inicio = Instant.now();
 			FilaValores.setLendoDados(true);
 			br = Files.newBufferedReader(path, StandardCharsets.UTF_8);
 			while((line = br.readLine()) != null) {
@@ -28,6 +33,8 @@ public class Leitura implements Runnable{
 			}
 			br.close();
 			FilaValores.setLendoDados(false);
+			Instant fim = Instant.now();
+			System.out.println("Duracao Leitura: " + Duration.between(inicio, fim).toMillis() + "ms");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
